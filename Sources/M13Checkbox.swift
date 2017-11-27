@@ -13,6 +13,10 @@
 
 import UIKit
 
+@objc public protocol M13CheckboxDelegate {
+    func stateChanged(_ checkbox: M13Checkbox)
+}
+
 /// A customizable checkbox control for iOS.
 @IBDesignable
 open class M13Checkbox: UIControl {
@@ -216,6 +220,9 @@ open class M13Checkbox: UIControl {
     /// The manager that manages display and animations of the checkbox.
     /// The default animation is a stroke.
     fileprivate var controller: M13CheckboxController = M13CheckboxStrokeController()
+
+    // Delegate for handling events
+    @IBOutlet public weak var delegate: M13CheckboxDelegate?
     
     //----------------------------
     // MARK: - Initalization
@@ -304,11 +311,13 @@ open class M13Checkbox: UIControl {
                 controller.animate(checkState, toState: nil, completion: { [weak self] in
                     self?.controller.resetLayersForState(newState)
                     self?.controller.animate(nil, toState: newState)
-                    })
+                })
             }
         } else {
             controller.resetLayersForState(newState)
         }
+
+        delegate?.stateChanged(self)
     }
     
     /**
