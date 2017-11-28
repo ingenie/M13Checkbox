@@ -14,7 +14,7 @@
 import UIKit
 
 @objc public protocol M13CheckboxDelegate {
-    func stateChanged(_ checkbox: M13Checkbox)
+    func checkboxStateChanged(_ checkbox: M13Checkbox)
 }
 
 /// A customizable checkbox control for iOS.
@@ -317,7 +317,7 @@ open class M13Checkbox: UIControl {
             controller.resetLayersForState(newState)
         }
 
-        delegate?.stateChanged(self)
+        delegate?.checkboxStateChanged(self)
     }
     
     /**
