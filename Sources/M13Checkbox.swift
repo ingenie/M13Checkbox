@@ -15,6 +15,8 @@ import UIKit
 
 @objc public protocol M13CheckboxDelegate {
     func checkboxStateChanged(_ checkbox: M13Checkbox)
+
+    @objc optional func checkboxShouldChangeState(_ checkbox: M13Checkbox) -> Bool
 }
 
 /// A customizable checkbox control for iOS.
@@ -290,6 +292,10 @@ open class M13Checkbox: UIControl {
             return controller.state
         }
         set {
+            guard let shouldChange = delegate?.checkboxShouldChangeState?(self), shouldChange else {
+                return
+            }
+
             setCheckState(newValue, animated: false)
         }
     }
@@ -300,6 +306,10 @@ open class M13Checkbox: UIControl {
      - parameter animated: Whether or not to animate the change.
      */
     open func setCheckState(_ newState: CheckState, animated: Bool) {
+        guard let shouldChange = delegate?.checkboxShouldChangeState?(self), shouldChange else {
+            return
+        }
+
         if checkState == newState {
             return
         }
