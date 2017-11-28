@@ -292,7 +292,7 @@ open class M13Checkbox: UIControl {
             return controller.state
         }
         set {
-            guard let shouldChange = delegate?.checkboxShouldChangeState?(self), shouldChange else {
+            guard delegate?.checkboxShouldChangeState?(self) ?? true else {
                 return
             }
 
@@ -306,7 +306,7 @@ open class M13Checkbox: UIControl {
      - parameter animated: Whether or not to animate the change.
      */
     open func setCheckState(_ newState: CheckState, animated: Bool) {
-        guard let shouldChange = delegate?.checkboxShouldChangeState?(self), shouldChange else {
+        guard delegate?.checkboxShouldChangeState?(self) ?? true else {
             return
         }
 
